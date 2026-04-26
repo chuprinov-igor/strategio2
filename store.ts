@@ -1,6 +1,6 @@
 
 import { create } from 'zustand';
-import { MarketingStrategy, SectionId } from './types';
+import { MarketingStrategy, SectionId, PESTFactor } from './types';
 
 interface AppState {
   currentSection: SectionId;
@@ -11,50 +11,72 @@ interface AppState {
   getProgress: () => number;
 }
 
+const createFactor = (): PESTFactor => ({
+  id: Math.random().toString(36).substr(2, 9),
+  factor: '',
+  impactType: 'нейтральный',
+  strength: 1,
+  probability: 1,
+  dynamics: '',
+  industryChange: '',
+  companyChange: ''
+});
+
 const initialStrategy: MarketingStrategy = {
-  projectName: "Моя новая маркетинговая стратегия",
+  projectName: "Маркетинговый план для бренда батончиков XXX",
   intro: {
+    background: "В данной работе представлен план для категории орехово-фруктовых батончиков...",
+    skuList: "11 SKU для высокого сегмента, 6 SKU с пробиотиками...",
     mission: "Дать возможность каждому питаться правильно и вкусно.",
-    vision: "Стать брендом №1 в категории полезных снеков к 2025 году.",
-    smartGoal: "Увеличить оборот до 500 млн руб. к концу 2024 года."
+    vision: "К 2025 году стать брендом №1 в категории нешоколадных батончиков.",
+    smartGoal: "Достичь оборота XXX млн рублей в 2024 году."
   },
   external: {
-    pest: {
-      political: "Стабильное регулирование пищевой отрасли.",
-      economic: "Снижение реальных доходов населения на 3%.",
-      social: "Рост тренда на ЗОЖ и правильное питание.",
-      tech: "Развитие e-commerce и экспресс-доставки."
+    macro: { 
+      political: [createFactor()],
+      economic: [createFactor()],
+      social: [createFactor()],
+      tech: [createFactor()],
+      conclusions: ""
     },
-    marketSize: "4 млрд рублей, рост категории 15% в год.",
-    competitors: [
-      { name: "Fit&Fruit", share: "12%", strength: "Цена", weakness: "Состав" },
-      { name: "R.A.W. Life", share: "8%", strength: "Премиальный имидж", weakness: "Высокая цена" }
-    ]
+    market: { sizeHistory: "4 млрд рублей в 2020 году", growthForecast: "15% в год", segments: "Зерновые, фруктовые, протеиновые" },
+    consumers: { b2bChannels: "NKA, HoReCa, E-commerce", b2cSegments: "Ultra, Sport, Food, Lite", targetPortrait: "Женщина, 37 лет, доход 44к+" },
+    competition: [
+      { name: "XXX", share: "X%", strength: "Лидерство", weakness: "Цена" }
+    ],
+    distribution: { structure: "54% Дискаунтеры, 23% Гипермаркеты", regionAnalysis: "Москва - самое сильное падение" }
   },
   internal: {
-    audit4P: {
-      product: "100% натуральный состав, без сахара.",
-      price: "Средний плюс, стратегия 'снятия сливок'.",
-      place: "Федеральные сети (X5, Магнит), маркетплейсы.",
-      promotion: "SMM, работа с блогерами, дегустации."
+    results: { volumeHistory: "2018: 350 млн, 2019: 410 млн, 2020: 380 млн", reasons: "Пандемия, падение HoReCa", marketShareHistory: "2018: 4%, 2019: 5%, 2020: 4.5%" },
+    strategicIssues: {
+      currentKpis: [
+        { kpi: "Объем продаж", target: "450 млн", fact: "380 млн" },
+        { kpi: "Доля рынка", target: "6%", fact: "4.5%" }
+      ],
+      currentSegmentation: "Сегментация по поведению: Ultra, Sport, Food, Lite",
+      currentPositioning: "100% натуральные снеки для миллениалов",
+      differentiationPoints: "Собственное производство, сертификат ISO22000, эко-упаковка"
     },
-    abcAnalysis: "Линейка 'Classic' - группа А (75% оборота)."
+    portfolio: [
+      { line: "Линейка 1", revenue: "X руб", margin: "X%", abc: "A" }
+    ],
+    systems: {
+      structure: "Отдел маркетинга (3 чел), подчинение Ген. директору",
+      // Fixed duplicate software property error
+      software: "1-С-Битрикс, переход на AMOCRM",
+      planningProcess: "Ежемесячный контроль план/факт, квартальный пересмотр"
+    }
   },
   swot: {
-    strengths: ["Собственное производство", "Уникальная рецептура"],
-    weaknesses: ["Низкая узнаваемость в регионах", "Зависимость от импортного сырья"],
-    opportunities: ["Выход на рынок СНГ", "Запуск протеиновой линейки"],
-    threats: ["Рост цен на логистику", "Демпинг конкурентов"]
+    strengths: [], weaknesses: [], opportunities: [], threats: [],
+    priority: "Звание капитана категории ЗОЖ"
   },
   strategy: {
-    ansoff: "Развитие продукта",
-    positioning: "Полезный перекус для активных горожан.",
-    targetAudience: "Женщины и мужчины 25-45 лет, доход средний+, ЗОЖ-ориентированные."
+    ansoff: { existingP_existingM: "Сокращение линейки", newP_existingM: "Запуск протеиновых", existingP_newM: "Листинг в ТОП-10", newP_newM: "Новая линия" },
+    goals: "", targetMarkets: "", positioning: "", compGoals: ""
   },
-  actionPlan: [
-    { activity: "Запуск рекламной кампании в соцсетях", deadline: "Март 2024", owner: "Маркетолог", budget: "500 000 руб." },
-    { activity: "Листинг в сеть 'Азбука Вкуса'", deadline: "Май 2024", owner: "КАМ", budget: "200 000 руб." }
-  ]
+  marketingMix: { product: "", price: "", place: "", promotion: "" },
+  actionPlan: []
 };
 
 export const useStore = create<AppState>((set, get) => ({
@@ -63,31 +85,20 @@ export const useStore = create<AppState>((set, get) => ({
   setCurrentSection: (id) => set({ currentSection: id }),
   updateStrategy: (data) => set((state) => ({ strategy: { ...state.strategy, ...data } })),
   updateSection: (section, data) => set((state) => ({ 
-    strategy: { ...state.strategy, [section]: { ...state.strategy[section], ...data } } 
+    strategy: { ...state.strategy, [section]: { ...(state.strategy[section] as any), ...data } } 
   })),
   getProgress: () => {
     const s = get().strategy;
-    let filled = 0;
-    let total = 0;
-    
-    const checkValue = (val: any) => {
-      if (typeof val === 'string') {
-        total++;
-        if (val.trim().length > 0) filled++;
-      } else if (Array.isArray(val)) {
-        total++;
-        if (val.length > 0) filled++;
-      } else if (typeof val === 'object' && val !== null) {
-        Object.values(val).forEach(checkValue);
+    let filled = 0, total = 0;
+    const check = (val: any) => {
+      if (typeof val === 'string' || typeof val === 'number') { total++; if (val.toString().trim()) filled++; }
+      else if (Array.isArray(val)) { 
+        if (val.length === 0) total++;
+        else val.forEach(check); 
       }
+      else if (typeof val === 'object' && val !== null) Object.values(val).forEach(check);
     };
-
-    checkValue(s.intro);
-    checkValue(s.external);
-    checkValue(s.internal);
-    checkValue(s.swot);
-    checkValue(s.strategy);
-    
+    check(s);
     return Math.round((filled / Math.max(total, 1)) * 100);
   }
 }));
